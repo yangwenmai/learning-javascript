@@ -95,7 +95,7 @@ let x = 1 + 2
 let foo = () => 1 + 2
 ```
 
-That's kink of boring, let's spice things up and introduce time complexity to it:
+That's kind of boring, let's spice things up and introduce time complexity to it:
 
 ```javascript
 function addAsync(x, y, cb) {
