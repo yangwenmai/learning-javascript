@@ -1,13 +1,13 @@
 # Asynchronous Patterns in JavaScript (Part 1)
 
-Dealing with asynchronous logic is one of the most challenging parts in programming. In JavaScript, we have different ways of coping with async flow control. In this two-part series, I'll take a close look into different patterns of handling async logic. By explaining why these patterns are introduced and what problems they aim to solve, this series provides a higher level of abstraction on this topic. This is the first part, I'll explore callbacks, thunks and Promises.
+Dealing with asynchronous logic is one of the most challenging parts in programming. In JavaScript, we have different ways of coping with async flow control. In this two-part series, I'll take a close look into different patterns of handling async control flow. By explaining why these patterns are introduced and what problems they aim to solve, this series provides a higher level of abstraction on this topic. This is the first part, I'll explore callbacks, thunks and Promises.
 
 ## Old familiar callbacks
 
 If you are like me, who started to learn JavaScript later than 2016, by which time the ES6 had already been introduced into JavaScript, you've probably never had to use callbacks to solve async problems. Learning and understanding this pattern seems unnecessary if we're never going to use it. However, by understanding this pattern, we'll gain at least these two benefits:
 
-    1. By knowing how JavaScript programmers struggled to tackle complex async problems back in these dark days when Promises don't exist, we'll get a deeper understanding of why we need better solutions for handling async issues.
-    2. We'll be spared from making these mistakes again. If you're not careful, you'll probably get into the same trouble that callbacks introduces.
+1.  By knowing how JavaScript programmers struggled to tackle complex async problems back in these dark days when promises don't exist, we'll get a deeper understanding of why we need better solutions for solving the same problems.
+2.  We'll be spared from making these mistakes again. If you're not careful, you'll probably get into the same trouble that callbacks introduces.
 
 ### Callback hell
 
@@ -25,7 +25,7 @@ setTimeout(function() {
 }, 2000)
 ```
 
-This piece of code is awful to look at and it hurts our brains to try to keep track of each step. This style is famously named callback hell, a named well deserved.
+This piece of code is awful to look at and it hurts our brains to try to keep track of each step. This style is famously named callback hell, a name well deserved.
 
 The main disadvantages of callbacks have less to do with readablity. The major issues lie much deeper and cause much bigger problems.
 
@@ -78,7 +78,7 @@ Because of how JavaScript event loop works, async methods are moved to the event
 
 ## Thunks
 
-If you have worked with React, you've most probably heard of this bizarre name. There's a library called redux thunk in the React eco system. As a matter of fact, redux thunk implements the same logic as the pattern I'm going to explore.
+If you have worked with React, you've most probably heard of this bizarre name. There's a library called redux thunk in the React eco system. As a matter of fact, redux thunk implements the same logic as the pattern I'm about to explore.
 
 I'll first steal some contents from the redux thunk docs:
 
@@ -124,9 +124,9 @@ function makeThunk(fn) {
 }
 ```
 
-Provided with a callback function and extra arguments, the makeThunk function will return a function, which also takes a callback function. When the returned thunk function is called with a callback, the previously provided callback function will be called with the extra arguments plus the later provided callback function.
+Provided with a callback function and extra arguments, the `makeThunk` function will return a function, which also takes a callback function. When the returned thunk function is called with a callback, the previously provided callback function will be called with the extra arguments plus the later provided callback function.
 
-My brain got twisted to understand this makeThunk function, I suggest you play with it a few times.
+My brain got twisted to understand this `makeThunk` function, I suggest you play with it a few times.
 
 Now we can achieve the same effect as the previous code:
 
@@ -165,7 +165,7 @@ function getFile(url) {
   }
 }
 
-const thunk = getFile(url1)
+const thunk = getFile("url1")
 thunk(console.log)
 // "The first text"
 ```
@@ -195,7 +195,7 @@ export default thunk
 
 Yes, the redux thunk library is just 14 lines of code!
 
-For the sake of simplicity, we'll omit the extraArgument part. The createThunkMiddleware will be called twice before returns a thunk. The Redux library handles the first two calls, so we'll ignore them. Normally when we call an action creator in redux, it will return an action object.
+For the sake of simplicity, we'll omit the extraArgument part. The `createThunkMiddleware` will be called twice before returns a thunk. The Redux library handles the first two calls, so we'll ignore them. Normally when we call an action creator in redux, it will return an action object.
 
 ```javascript
 function increment() {
@@ -206,7 +206,7 @@ function increment() {
 }
 ```
 
-When we handle with async task, we can return a function instead of an object:
+When we handle an async task, we can return a function instead of an object:
 
 ```javascript
 function asyncInc() {
@@ -254,18 +254,18 @@ I assume that you've already known the basic usage of promises. So I'll jump dir
 
 ### Problems that promises solve
 
-    1. Promises solve Inversion of Control. We are in control of calling a method when a time dependent state resolves.
-    2. Promises only resolve once, and stay immutable once resolved. Less surprises in our program.
-    3. The promises chain gets executed in order. We can easily reason about how the promises chain cascades down. The code runs as we expect.
-    4. Error handling becomes much easier than callbacks.
+1.  Promises solve Inversion of Control. We are in control of calling a method when a time dependent state resolves.
+2.  Promises only resolve once, and stay immutable once resolved. Less surprises in our program.
+3.  The promises chain gets executed in order. We can easily reason about how the promises chain cascades down. The code runs as we expect.
+4.  Error handling becomes much easier than callbacks.
 
 ### Problems introduced by promises
 
 The downside of promises are generally overlooked by the JS community. This is too big a topic to be covered in this article. So I suggest go read this [article](https://medium.com/@avaq/broken-promises-2ae92780f33). Here is a TLDR version of the article:
 
-    1. Promises are eagerly evaluated: when they are constructed, they immediately begin work. They don’t care whether users are interested in the result of the operation.
-    2. Promises can't be cancelled. Sometimes we need to cancel an async operation because of UI events. Say a user goes back to previous page before the ajax call completes. In this case, the user is not interested at the result of the promise, we need to cancel it. Promises don't support this feature.
-    3.Promises don't force users to provide a rejection handler, which may cause headaches when exceptions arise.
+1.  Promises are eagerly evaluated: when they are constructed, they immediately begin work. They don’t care whether users are interested in the result of the operation.
+2.  Promises can't be cancelled. Sometimes we need to cancel an async operation because of UI events. Say a user goes back to previous page before the ajax call completes. In this case, the user is not interested at the result of the promise, we need to cancel it. Promises don't support this feature.
+3.  Promises don't force users to provide a rejection handler, which may cause headaches when exceptions arise.
 
 ### Async/Await
 
@@ -294,7 +294,7 @@ async getObj() {
 }
 ```
 
-I'll confess that I've being writing this kind of code for a while, until I find the gotcha. Although this piece of code looks elegant and all, it has a performance issue. the fetchB function will wait for the fetchA function to complete! That is unnecessary since fetchB doesn't depend on fetchA. They can run in parallel. Here's the fix:
+I'll confess that I've being writing this kind of code for a while, until I find the gotcha. Although this piece of code looks elegant and all, it has a performance issue. The fetchB function will only run after the fetchA function completes! This is unnecessary since fetchB doesn't depend on fetchA. They can run in parallel. Here's the fix:
 
 ```javascript
 async getObj() {
@@ -342,7 +342,7 @@ async getSomething(url) {
 }
 ```
 
-This has two down sides. First, the try/catch syntax is a pain to write again and again. It really negatively affects the experience of writing code. Second, try/catch will catch every exception in the block, some other exceptions which are not usually caught by promises will be caught.
+This has two down sides. First, the try/catch syntax is a pain to write repeatedly. It really negatively affects the experience of writing code. Second, try/catch will catch every exception in the block, some other exceptions which are not usually caught by promises will be caught.
 
 The alternative approach I'll introduce is borrowed from Golang. In Golang, you can deal with errors like this:
 
@@ -354,15 +354,15 @@ if err != nil { return err }
 We can implement this style in JavaScript like this:
 
 ```javascript
-function to(promise) {
-   return promise.then(data => {
-      return [null, data];
-   })
+const to = promise => promise.then(data =>  [null, data];
+   )
    .catch(err => [err]);
+
 
 async getSomething(url) {
     const [err, something] = await to(fetchSomethingFromAPI(url));
     return err ? err : something
+}
 ```
 
 That's all for today. Next time we will explore more advanced fancy patterns in asynchronous programming. Stay tuned!
