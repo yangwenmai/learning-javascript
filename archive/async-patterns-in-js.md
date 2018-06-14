@@ -6,8 +6,8 @@ Dealing with asynchronous logic is one of the most challenging parts in programm
 
 If you are like me, who started to learn JavaScript later than 2016, by which time the ES6 had already been introduced into JavaScript, you've probably never had to use callbacks to solve async problems. Learning and understanding this pattern seems unnecessary if we're never going to use it. However, by understanding this pattern, we'll gain at least these two benefits:
 
-1.  By knowing how JavaScript programmers struggled to tackle complex async problems back in these dark days when promises don't exist, we'll get a deeper understanding of why we need better solutions for solving the same problems.
-2.  We'll be spared from making these mistakes again. If you're not careful, you'll probably get into the same trouble that callbacks introduces.
+1. By knowing how JavaScript programmers struggled to tackle complex async problems back in these dark days when promises don't exist, we'll get a deeper understanding of why we need better solutions for solving the same problems.
+2. We'll be spared from making these mistakes again. If you're not careful, you'll probably get into the same trouble that callbacks introduces.
 
 ### Callback hell
 
@@ -254,18 +254,18 @@ I assume that you've already known the basic usage of promises. So I'll jump dir
 
 ### Problems that promises solve
 
-1.  Promises solve Inversion of Control. We are in control of calling a method when a time dependent state resolves.
-2.  Promises only resolve once, and stay immutable once resolved. Less surprises in our program.
-3.  The promises chain gets executed in order. We can easily reason about how the promises chain cascades down. The code runs as we expect.
-4.  Error handling becomes much easier than callbacks.
+1. Promises solve Inversion of Control. We are in control of calling a method when a time dependent state resolves.
+2. Promises only resolve once, and stay immutable once resolved. Less surprises in our program.
+3. The promises chain gets executed in order. We can easily reason about how the promises chain cascades down. The code runs as we expect.
+4. Error handling becomes much easier than callbacks.
 
 ### Problems introduced by promises
 
 The downside of promises are generally overlooked by the JS community. This is too big a topic to be covered in this article. So I suggest go read this [article](https://medium.com/@avaq/broken-promises-2ae92780f33). Here is a TLDR version of the article:
 
-1.  Promises are eagerly evaluated: when they are constructed, they immediately begin work. They don’t care whether users are interested in the result of the operation.
-2.  Promises can't be cancelled. Sometimes we need to cancel an async operation because of UI events. Say a user goes back to previous page before the ajax call completes. In this case, the user is not interested at the result of the promise, we need to cancel it. Promises don't support this feature.
-3.  Promises don't force users to provide a rejection handler, which may cause headaches when exceptions arise.
+1. Promises are eagerly evaluated: when they are constructed, they immediately begin work. They don’t care whether users are interested in the result of the operation.
+2. Promises can't be cancelled. Sometimes we need to cancel an async operation because of UI events. Say a user goes back to previous page before the ajax call completes. In this case, the user is not interested at the result of the promise, we need to cancel it. Promises don't support this feature.
+3. Promises don't force users to provide a rejection handler, which may cause headaches when exceptions arise.
 
 ### Async/Await
 
@@ -354,10 +354,7 @@ if err != nil { return err }
 We can implement this style in JavaScript like this:
 
 ```javascript
-const to = promise => promise.then(data =>  [null, data];
-   )
-   .catch(err => [err]);
-
+const to = promise => promise.then(data => [null, data]).catch(err => [err])
 
 async getSomething(url) {
     const [err, something] = await to(fetchSomethingFromAPI(url));
