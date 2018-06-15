@@ -1,6 +1,6 @@
 # Asynchronous Patterns in JavaScript (Part 2)
 
-Last time I've examined callbacks, thunks and promises in dealing with async control flows in JavaScript. Now it's time to get over the basics level up our skills. I'll introduce you some of the most exciting techniques in asynchronous programming. A caveat to keep in mind before we dive in is that these patterns are not to replace the previous patterns. We still have to make use of promises, thunks, and even callbacks a lot in our programming practice. These advanced patterns I'm about to talk about are powerful when applied to suitable scenarios. Otherwise they could become cumbersome.
+Last time I've examined callbacks, thunks and promises in dealing with async control flows in JavaScript. Now it's time to get over the basics and level up our skills. I'll introduce you some of the most exciting techniques in asynchronous programming. A caveat to keep in mind before we dive in is that these patterns are not to replace the previous patterns. We still have to use promises, thunks, and even callbacks a lot in our programming practice. These advanced patterns I'm about to talk about are powerful when applied to suitable scenarios, otherwise they could become cumbersome.
 
 Also bear in mind that fully understanding these patterns is not an easy task. It took me months of practice to be able to talk about them comfortably. I bet some of the code I'm going to show you will blow your mind. Hope you're already excited!
 
@@ -16,7 +16,7 @@ Another fancy word from the Redux world! I don't even know what "saga" means. Bu
 
 Redux saga takes advantage of generators to manage the side effects of your redux application. Generators can easily be started, paused, resumed, and even cancelled, enabling us to deal with complicated asynchronous logic while writing reasonable synchronous looking code.
 
-Here's a basic example of redux saga:
+Here's a basic example of redux saga from its official docs:
 
 ```javascript
 import { call, put, takeEvery, takeLatest } from "redux-saga/effects"
@@ -56,7 +56,7 @@ export default mySaga
 
 Each time the generator function encounters `yield`, it will pause. After the value gets resolved in the yielded expression, the `next()` method from Redux will call `next()` (Notice that these two `next` are different!) on the iterator returned from the `fetchUser` generator for us.
 
-Remember that in the previous post I bashed promises for not being able to be cancelled? Redux saga solves this problem! Although under the hood the `fetchUser` method may still use a promise, but the async flow can be cancelled. Cancelling an async flow is not an easy task to do by yourself. It's better to use a library like redux saga.
+Remember that in the previous post I bashed promises for not allowing to be cancelled? Redux saga solves this problem! Although under the hood the `fetchUser` method may still use a promise, but the async flow can be cancelled. Cancelling an async flow is not an easy task to do by yourself. It's better to use a library like redux saga.
 
 ### Async Iterator
 
@@ -218,7 +218,7 @@ const displayUsers = users =>
   users.forEach(user => displayLogic(user))
 ```
 
-The code above converts user clicks into a stream, which gets mapped to a stream of ajax requests. When the ajax call resolves, we get the result and display the result. We only allow one request to be dispatched within 1 second by calling `throttleTime(1000)`. If the request doesn't resolve after 3 seconds, we'll cancel the request and throw an error. By calling `reTry(3)`, we let Rx.js to retry 3 times in total if the request fails.
+The code above converts user clicks into a stream, which gets mapped to a stream of ajax requests. When each ajax call resolves, we get the result and display the result. We only allow one request to be dispatched within 1 second by calling `throttleTime(1000)`. If the request doesn't resolve after 3 seconds, we'll cancel the request and throw an error. By calling `reTry(3)`, we let Rx.js to retry 3 times in total if the request fails.
 
 Notice how easy it is to implement these functionality with just a few utility functions.
 
@@ -226,7 +226,7 @@ I've written a post on [Rx.js](https://leihuang.me/posts/rxjs-in-action). Checko
 
 ## Communicating Sequential Process (CSP)
 
-Communicating Sequential Process (CSP) is borrowed from Golang and ClojureScript. It's a software mechanism that models concurrency with channels. Channels are like a pipe that has no buffer size, so as to enable back pressure message passing. Imagine there's a pipe that has a receiver and a pusher at each end. Since the pipe has no buffer size, the pusher can't push new messages if the receiver is not ready to receive. On the contrary, the receiver can't get messages out if the pusher is not ready to push.
+Communicating Sequential Process (CSP) is borrowed from Golang and ClojureScript. It's a software mechanism that models concurrency with channels. Channels are like a pipe that has no buffer size, so as to enable back pressure message passing. Imagine there's a pipe that has a receiver and a pusher at each end. Since the pipe has no buffer size, the pusher can't push new messages if the receiver is not ready to receive. On the other side, the receiver can't get messages out if the pusher is not ready to push.
 
 By implementing channels, we can model each part of our software in separate independent sequential processes that don't need to know about each other. All they care about is sending and receiving messages through the channel. Process A doesn't care about the implementation details of process B. This is a huge improvement in software design. Writing decoupled and easy to reason about code becomes much easier.
 
@@ -254,7 +254,7 @@ function* process2() {
 }
 ```
 
-We first created a channel by calling the `chan` function. The `put` and `take` functions will, well, put and take messages through the channel. Surprise! When the process1 function encounters the `put` expression, it will pause and wait for a `take` call from elsewhere. When process2 calls `take`, if the channel has something to take, which, in our case, means that the process1 has already called `put`, it will keep running. When process2 encounters `put`, it will pause. After process2 called `take` previously, process1 got unblocked and continued until it meets `take`.
+We first created a channel by calling the `chan` function. The `put` and `take` functions will, well, put messages to and take messages from the channel. Surprise! When the process1 function encounters the `put` expression, it will pause and wait for a `take` call from elsewhere. When process2 calls `take`, if the channel has something to take, which, in our case, means that process1 has already called `put`, it will keep running. When process2 encounters `put`, it will pause. After process2 called `take` previously, process1 got unblocked and continued until it met `take`.
 
 You can see that these two processes run independently. If the channel has nothing to take, the `take` expression in either process will pause. If the message in a channel hasn't been taken, the process that puts that message to the channel will pause, too. Both `take` and `put` keep agnostic of the states of the outer world.
 
