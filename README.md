@@ -5,3 +5,4 @@ This project is created to explore the JavaScript Language. We hope that by part
 ## List of Articles
 
 * [Asynchronous Patterns in JavaScript (Part 1)](./archive/async-patterns-in-js.md)
+* [Asynchronous Patterns in JavaScript (Part 2)](./archive/async-patterns-in-js-part-2.md)
