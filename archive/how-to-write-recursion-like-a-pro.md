@@ -195,6 +195,7 @@ const filter = (f, list) => {
 Here's the most complicated one so far. Quick sort in a very common sorting algorithm in computer science. This `quickSort` function takes a list of numbers, and returns a list of numbers sorted with ascending order. The function first takes out the first number of the list and marks it as a pivot, then it iterates over the rest of the list, comparing each element number with the pivot number. If the element number is smaller, it will be appended to the new list called smaller, otherwise, it will be appended to another new list called bigger. Then the function enters recursion, it applies `quickSort` to both the smaller list and the bigger list, and concatenates the results with pivot, with pivot in the middle. The smaller list and bigger list will be divided in every recursion, until the length of them reaches one, upon which the recursion stops and returns the remaining list.
 
 ```python
+# Python
 def quickSort(xs):
     if len(xs) <= 1:
          return xs
@@ -209,6 +210,7 @@ print quickSort([44,14,65,34])
 ```
 
 ```javascript
+// JavaScript
 const quickSort = list => {
   if (list.length === 0) return list
   const [pivot, ...rest] = list
