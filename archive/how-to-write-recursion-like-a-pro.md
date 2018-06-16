@@ -1,6 +1,6 @@
 # How To Write Recursion Like A Pro
 
-When I started learning programming, one of the most confusing concept to understand is recursion. Now, when I'm finally the pro programmer who I'd been dreaming of becoming when I was a newbie, I feel like that these confusions and struggles are unnecessary. If I had a teacher like the present me, I would have learned it easily! Recently, as I'm learning Haskell, I get enamored by how elegant coding could be in Haskell, especially when writing recursion. In this post, I'll show you how to write recursion functions step by step. In the end, I'll show you some recursion functions that I translated from Haskell, both in JavaScript and in Python!
+When I started learning programming, one of the most confusing concepts to understand is recursion. Now, when I finally become the pro programmer who I wished I could be when I was a newbie, I feel that these confusions and struggles are unnecessary. If I had a teacher like the present me, I would have learned it easily! Recently, as I'm learning Haskell, I get enamored by how elegant coding could be in Haskell, especially when writing recursion. Inspired by recursion in Haskell, I decided to rewrite some of the common functions from JS and Python in Haskell style. In this post, I'll show you how to write recursion functions step by step. In the end, I'll show you the recursion functions I wrote!
 
 ## Recursion basics
 
@@ -17,7 +17,7 @@ def foo():
 foo()
 ```
 
-Open your terminal or any REPL editors, and run this code. You'll get an error! Don't be angry with me yet. This is to be expected. Let's reason about this code for a bit. This `foo` function was defined to call itself, since there's no command to tell it to stop calling itself, it will keep calling itself infinitely, until the runtime quits with stack overflow, which, will be translated to human language as "maximum recursion depth exceeded" in Python runtime.
+Open your terminal or any REPL editors, and run this code. You'll get an error! Don't be angry with me yet. This is to be expected. Let's reason about this code for a bit. This `foo` function is defined to call itself, since there's no command to tell it to stop, it will keep calling itself infinitely, until the runtime quits with stack overflow, which, will be translated to human language as "maximum recursion depth exceeded" in Python runtime.
 
 Let's modify the code to make it stop after meeting a condition:
 
@@ -38,7 +38,7 @@ There are three major changes that should draw your attention in the second `foo
 2. In the beginning of the function, there is a condition against which the argument will be checked. If the condition is met, the function stops running.
 3. Each time the function calls itself, it will modify the argument.
 
-Believe it or not, that's all recursion is about! We'll consolidate our understanding by writing some recursion functions. All of the functions I'm going to present you are inspired by Haskell!
+Believe it or not, that's all recursion is about! We'll consolidate our understanding by writing some recursion functions. All the functions I'm going to present you are inspired by Haskell!
 
 Let's first write our own version of `max` in Python. I suggest you use the built-in `max` method in your code, this is just for practice.
 
@@ -53,11 +53,11 @@ print max2([3,98,345])
 # 345
 ```
 
-The `max2` function takes a list. If the length of the list is 1, the function will stop running and yield the first element of the list. Notice that when a recursion stops, it must yield a value. (If the purpose of your function is to perform side effects rather than calculation, then you can choose to not yield a value.) Otherwise, we'll take the first element from the list and name it head, and name the rest of the list tail.
+The `max2` function takes a list. If the length of the list is 1, the function will stop running and yield the first element of the list. Notice that when a recursion stops, it must yield a value. (If the purpose of your function is to perform side effects rather than calculation, then you can choose not to yield a value.) Otherwise, we'll take the first element from the list and name it head, and the rest of the list will be named tail.
 
 We compare head with the largest element from the tail list, which we don't know yet, so we put the tail to the `max2` function again. We don't care how the rest calls to `max2` anymore, because we know they will be stopped and yield a value. If the head is bigger than the max number from the tail list, then the head is the max number of the original list. Otherwise, the result of `max2(tail)` is the max number.
 
-If this is still confusing to you, I suggest you write the process down and observe each step.
+If this is still confusing to you, I suggest you pass a short list to the function, write the execution process down and observe each step.
 
 Here's the JavaScript version:
 
@@ -121,7 +121,7 @@ const map = f => xs => {
 }
 ```
 
-`zipWith` takes a function and two lists, it iterates over these two lists in parallel and zips each element from two lists together in every iteration, with the provided function being applied to each zip.
+`zipWith` takes a function and two lists, it iterates over these two lists in parallel and zips each element from these two lists together in every iteration, with the provided function being applied to each zip.
 
 ```python
 # Python
@@ -134,7 +134,7 @@ def zipWith(f, listA, listB):
 
 print zipWith(lambda x, y : x + y, [2,2,2,2], [3,3,3,3,3])
 # [5,5,5,5]
-# The result list will only be as long as the shorter list
+# The result list will only be as long as the shorter source list
 ```
 
 ```javascript
