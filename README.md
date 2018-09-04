@@ -7,3 +7,7 @@ This project is created to explore the JavaScript Language. We hope that by part
 * [Asynchronous Patterns in JavaScript (Part 1)](./archive/async-patterns-in-js.md)
 * [Asynchronous Patterns in JavaScript (Part 2)](./archive/async-patterns-in-js-part-2.md)
 * [How To Write Recursion Like A Pro](./archive/how-to-write-recursion-like-a-pro.md)
+
+## Join us
+
+<img src="./images/learning-javascript.jpeg" width="200px;"/>
