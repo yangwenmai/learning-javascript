@@ -4,6 +4,9 @@ This project is created to explore the JavaScript Language. We hope that by part
 
 Advanced contents are also welcome. The JavaScript language is evolving fast. New language features keep being added in, new frameworks and libraries booming. Without a solid grasp of the core mechanism of the language, one can easily get discouraged. We encourage all participants to go deeper into various design patterns and programming paradigms, so that we can be more prepared for the changing trends, and avoid the famous symptom among developers called JavaScript fatigue. 😄
 
+Join us on WeChat:
+![WeChat Group QR](images/learning-javascript.jpeg)
+
 ## List of Articles
 
 - [Asynchronous Patterns in JavaScript (Part 1)](./archive/async-patterns-in-js.md)
