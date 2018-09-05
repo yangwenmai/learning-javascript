@@ -3,7 +3,7 @@
 ## 一，用好 filter，map，和其它 ES6 新增的高阶遍历函数
 
 **问题一：**
-将数组中的 falsy 值去除
+将数组中的 false 值去除
 
 ```js
 const arrContainsEmptyVal = [3, 4, 5, 2, 3, undefined, null, 0, ""];
@@ -190,7 +190,7 @@ const partition = (arr, isValid) =>
       isValid(elem) ? [[...pass, elem], fail] : [pass, [...fail, elem]],
     [[], []],
   );
-  
+
 const isMale = person => person.sex === "male";
 
 const [maleUser, femaleUser] = partition(users, isMale);
